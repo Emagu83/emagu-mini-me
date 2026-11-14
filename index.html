@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#211b3d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EMAGU Mini Me">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>EMAGU Mini Me</title>
+<style>
+:root{--bg:#f5f2fc;--ink:#211b3d;--muted:#77718c;--purple:#7655e8;--lav:#eee8ff;--green:#1fb981;--card:#fff;--line:#ece8f4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:88px;background:var(--bg)}
+header{padding:18px 18px 12px;background:#211b3d;color:white;position:sticky;top:0;z-index:5}
+.top{display:flex;justify-content:space-between;align-items:center}.brand{font-weight:850;letter-spacing:.4px;font-size:19px}.brand span{color:#bca8ff}.date{font-size:12px;color:#cfc6e8;margin-top:5px}
+main{padding:16px}.hero{background:linear-gradient(135deg,#302650,#7255d8);color:white;border-radius:24px;padding:17px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 25px #35265c20}
+.avatar{width:105px;height:125px;flex:none;display:flex;align-items:center;justify-content:center;font-size:76px;background:linear-gradient(145deg,#e8dfff,#bba5ff);border-radius:20px;position:relative;overflow:hidden}
+.avatar:after{content:"";position:absolute;bottom:-18px;width:100px;height:50px;background:#59429b;border-radius:50%}
+.hero h2{font-size:20px;margin:0 0 6px}.hero p{font-size:12px;color:#e3dcf7;margin:0 0 10px;line-height:1.4}.xp{font-size:11px;color:#e9e2ff}.bar{height:6px;background:#ffffff40;border-radius:9px;margin-top:6px;overflow:hidden}.bar i{display:block;width:35%;height:100%;background:#7ce2b7}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.stat{background:white;border-radius:16px;padding:12px 8px;text-align:center;box-shadow:0 3px 12px #31205b08}.stat b{display:block;font-size:20px}.stat small{color:var(--muted);font-size:11px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:19px 0 10px}.section-head h3{margin:0;font-size:17px}.link{color:var(--purple);font-weight:700;font-size:12px;background:none;border:0}
+.card{background:var(--card);border-radius:18px;padding:13px;margin-bottom:10px;box-shadow:0 3px 14px #31205b08}
+.task{display:flex;align-items:center;gap:11px}.time{font-size:12px;color:var(--muted);width:43px;flex:none}.taskmain{flex:1;min-width:0}.taskmain b{display:block;font-size:14px}.taskmain small{color:var(--muted);font-size:11px}.check{width:25px;height:25px;border:2px solid #d8d2e6;border-radius:50%;background:white;color:white;font-weight:900}.check.done{background:var(--green);border-color:var(--green)}
+.pill{font-size:10px;padding:4px 7px;border-radius:20px;background:var(--lav);color:#684bc4;margin-left:5px}
+.assistant{background:#fff9e9;border:1px solid #f4e8c8;border-radius:17px;padding:13px;display:flex;gap:10px;line-height:1.4;font-size:13px}.assistant strong{display:block;margin-bottom:3px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--line);padding:9px 7px calc(9px + env(safe-area-inset-bottom));z-index:10}
+nav button{border:0;background:none;color:#827b93;font-size:10px;padding:4px}nav button b{display:block;font-size:20px;margin-bottom:2px}nav button.active{color:var(--purple);font-weight:800}
+.view{display:none}.view.active{display:block}
+.primary{background:var(--purple);color:white;border:0;border-radius:13px;padding:12px 15px;font-weight:750;width:100%;font-size:14px}
+.secondary{background:var(--lav);color:#684bc4;border:0;border-radius:12px;padding:10px 12px;font-weight:700}
+input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;color:var(--ink);margin:5px 0 11px}
+label{font-size:12px;color:var(--muted);font-weight:700}
+.formrow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.routine{display:flex;justify-content:space-between;align-items:center}.routine b{font-size:14px}.routine small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.switch{border:0;border-radius:20px;background:#e6e1ef;padding:5px 10px;color:#6d6382}.switch.on{background:#d8f7e9;color:#168b60}
+.avatar-options{display:flex;gap:8px;flex-wrap:wrap}.avatar-options button{border:2px solid var(--line);background:white;border-radius:12px;padding:9px;font-size:22px}.avatar-options button.selected{border-color:var(--purple);background:var(--lav)}
+.empty{text-align:center;color:var(--muted);padding:20px;font-size:13px}
+small.note{display:block;color:var(--muted);font-size:10px;line-height:1.4;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="top"><div><div class="brand">EMAGU <span>Mini Me</span></div><div class="date" id="today"></div></div><div style="font-size:23px">✦</div></div></header>
+<main>
+<section id="home" class="view active">
+  <div class="hero"><div class="avatar" id="heroAvatar">🧑🏻‍🎤</div><div><h2 id="greeting">Ciao! 👋</h2><p>La tua giornata, organizzata a modo tuo.</p><div class="xp"><span id="xp">0</span> XP · livello <span id="level">1</span></div><div class="bar"><i id="xpbar"></i></div></div></div>
+  <div class="quick"><div class="stat"><b id="doneCount">0</b><small>Completate</small></div><div class="stat"><b id="todoCount">0</b><small>Da fare</small></div><div class="stat"><b id="routineCount">0</b><small>Routine attive</small></div></div>
+  <div class="section-head"><h3>La tua giornata</h3><button class="link" onclick="show('day')">Vedi tutto →</button></div><div id="homeTasks"></div>
+  <div class="section-head"><h3>Il consiglio del Mini Me</h3></div><div class="assistant"><div style="font-size:22px">💡</div><div><strong id="adviceTitle">Un passo alla volta</strong><span id="advice">Aggiungi le attività importanti: ti aiuterò a tenere il filo della giornata.</span></div></div>
+  <button class="primary" style="margin-top:14px" onclick="openAdd()">＋ Aggiungi attività spot</button>
+</section>
+<section id="day" class="view">
+ <div class="section-head"><h3>La tua giornata</h3><button class="link" onclick="openAdd()">＋ Aggiungi</button></div>
+ <div id="allTasks"></div>
+ <button class="primary" onclick="openAdd()">＋ Nuova attività</button>
+</section>
+<section id="routines" class="view">
+ <div class="section-head"><h3>Le mie routine</h3></div>
+ <div id="routineList"></div>
+ <div class="card"><h3 style="margin:0 0 10px">Crea una routine</h3><label>Nome routine</label><input id="routineName" placeholder="Es. Routine mattutina"><label>Frequenza</label><select id="routineFreq"><option>Ogni giorno</option><option>Giorni feriali</option><option>Ogni settimana</option></select><button class="primary" onclick="addRoutine()">Crea routine</button></div>
+</section>
+<section id="profile" class="view">
+ <div class="section-head"><h3>Il mio Mini Me</h3></div>
+ <div class="card" style="text-align:center"><div class="avatar" id="profileAvatar" style="margin:auto;width:130px;height:145px;font-size:90px">🧑🏻‍🎤</div><h3>Personalizza il tuo avatar</h3><div class="avatar-options" style="justify-content:center" id="avatarChoices"><button onclick="chooseAvatar('🧑🏻‍🎤',this)" class="selected">🧑🏻‍🎤</button><button onclick="chooseAvatar('👩🏻‍🎤',this)">👩🏻‍🎤</button><button onclick="chooseAvatar('🧑🏽‍🚀',this)">🧑🏽‍🚀</button><button onclick="chooseAvatar('🧑🏿‍🎨',this)">🧑🏿‍🎨</button><button onclick="chooseAvatar('🧑🏻‍💻',this)">🧑🏻‍💻</button></div></div>
+ <div class="card"><h3 style="margin-top:0">La tua personalità</h3><label>Come vuoi che ti accompagni?</label><select id="personality" onchange="savePersonality()"><option value="equilibrato">Equilibrato e incoraggiante</option><option value="energico">Energico e motivante</option><option value="tranquillo">Calmo e senza pressioni</option><option value="diretto">Diretto e pratico</option></select><label>Il tuo obiettivo principale</label><select id="goal" onchange="savePersonality()"><option>Organizzare meglio il tempo</option><option>Essere più costante</option><option>Studiare e imparare</option><option>Benessere e tempo libero</option><option>Gestire lavoro e famiglia</option></select></div>
+ <div class="card"><h3 style="margin-top:0">Progressi</h3><div class="quick"><div class="stat"><b id="profileXP">0</b><small>XP totali</small></div><div class="stat"><b id="profileDone">0</b><small>Attività fatte</small></div><div class="stat"><b id="profileRate">0%</b><small>Completamento</small></div></div></div>
+ <button class="secondary" onclick="resetDemo()">Ripristina dati demo</button>
+ <small class="note">Prototipo locale: i dati restano in questo browser su questo dispositivo. Non sono ancora sincronizzati tra telefoni.</small>
+</section>
+</main>
+<nav><button class="active" data-view="home" onclick="show('home')"><b>⌂</b>Home</button><button data-view="day" onclick="show('day')"><b>▦</b>Giornata</button><button data-view="routines" onclick="show('routines')"><b>↻</b>Routine</button><button data-view="profile" onclick="show('profile')"><b>☺</b>Profilo</button></nav>
+</div>
+<div id="modal" style="display:none;position:fixed;inset:0;background:#17122c99;z-index:20;align-items:end;justify-content:center">
+ <div style="background:#f8f6fc;width:min(520px,100%);padding:20px 18px 30px;border-radius:24px 24px 0 0;max-height:90vh;overflow:auto">
+ <div class="top"><h3 style="margin:0 0 12px">Nuova attività</h3><button class="secondary" onclick="closeAdd()">Chiudi</button></div>
+ <label>Che cosa devi fare?</label><input id="taskName" placeholder="Es. Telefonare al dentista">
+ <div class="formrow"><div><label>Orario</label><input type="time" id="taskTime" value="18:00"></div><div><label>Tipo</label><select id="taskType"><option>Spot</option><option>Lavoro</option><option>Studio</option><option>Benessere</option><option>Personale</option></select></div></div>
+ <label>Priorità</label><select id="taskPriority"><option>Normale</option><option>Alta</option><option>Bassa</option></select>
+ <button class="primary" onclick="addTask()">Salva attività</button>
+ </div>
+</div>
+<script>
+const demoTasks=[
+{id:1,time:"07:00",name:"Colazione e preparazione",type:"Personale",priority:"Normale",done:true},
+{id:2,time:"08:30",name:"Lavoro / studio",type:"Lavoro",priority:"Alta",done:false},
+{id:3,time:"13:00",name:"Pausa pranzo",type:"Personale",priority:"Normale",done:false},
+{id:4,time:"18:00",name:"Allenamento",type:"Benessere",priority:"Normale",done:false},
+{id:5,time:"20:30",name:"Tempo per un progetto personale",type:"Studio",priority:"Alta",done:false}
+];
+let state=JSON.parse(localStorage.getItem("emaguMiniMe")||"null")||{tasks:demoTasks,routines:[{id:1,name:"Routine mattutina",freq:"Ogni giorno",active:true},{id:2,name:"Lettura",freq:"Ogni giorno",active:true}],avatar:"🧑🏻‍🎤",personality:"equilibrato",goal:"Organizzare meglio il tempo",xp:10};
+function save(){localStorage.setItem("emaguMiniMe",JSON.stringify(state));render()}
+function show(id){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===id));}
+function openAdd(){document.getElementById("modal").style.display="flex";setTimeout(()=>document.getElementById("taskName").focus(),100)}
+function closeAdd(){document.getElementById("modal").style.display="none"}
+function addTask(){let name=document.getElementById("taskName").value.trim();if(!name){alert("Inserisci il nome dell'attività.");return}state.tasks.push({id:Date.now(),name,time:document.getElementById("taskTime").value,type:document.getElementById("taskType").value,priority:document.getElementById("taskPriority").value,done:false});state.tasks.sort((a,b)=>a.time.localeCompare(b.time));document.getElementById("taskName").value="";closeAdd();save();show("day")}
+function toggleTask(id){let t=state.tasks.find(x=>x.id===id);if(!t)return;t.done=!t.done;if(t.done)state.xp+=10;else state.xp=Math.max(0,state.xp-10);save()}
+function taskHTML(t){return `<div class="card task"><div class="time">${t.time}</div><div class="taskmain"><b style="${t.done?'text-decoration:line-through;color:#918ba0':''}">${esc(t.name)} ${t.type==='Spot'?'<span class=pill>SPOT</span>':''}</b><small>${esc(t.type)} · Priorità ${esc(t.priority)}</small></div><button class="check ${t.done?'done':''}" onclick="toggleTask(${t.id})">${t.done?'✓':''}</button></div>`}
+function addRoutine(){let n=document.getElementById("routineName").value.trim();if(!n){alert("Inserisci il nome della routine.");return}state.routines.push({id:Date.now(),name:n,freq:document.getElementById("routineFreq").value,active:true});document.getElementById("routineName").value="";save()}
+function toggleRoutine(id){let r=state.routines.find(x=>x.id===id);r.active=!r.active;save()}
+function chooseAvatar(a,el){state.avatar=a;document.querySelectorAll("#avatarChoices button").forEach(b=>b.classList.remove("selected"));el.classList.add("selected");save()}
+function savePersonality(){state.personality=document.getElementById("personality").value;state.goal=document.getElementById("goal").value;save()}
+function advice(){let pending=state.tasks.filter(t=>!t.done).length;let high=state.tasks.filter(t=>!t.done&&t.priority==="Alta").length;let p=state.personality;let title="Un passo alla volta",msg="Scegli una piccola attività e inizia: la continuità conta più della perfezione.";if(pending===0){title="Giornata completata! 🎉";msg="Hai concluso tutto quello che avevi programmato. Goditi il tempo libero."}else if(high){title="Parti dalla priorità";msg="Hai "+high+" attività ad alta priorità. Ti consiglio di affrontarne una per prima, senza cercare di fare tutto insieme."}else if(p==="energico"){title="Forza, si parte!";msg="Hai "+pending+" attività in programma. Scegline una e fai il primo passo!"}else if(p==="tranquillo"){title="Senza fretta";msg="Hai "+pending+" attività da gestire. Puoi distribuirle con calma durante la giornata."}else if(p==="diretto"){title="Ecco il piano";msg="Completa prima l'attività più importante. Se il tempo non basta, riprogramma il resto."}document.getElementById("adviceTitle").textContent=title;document.getElementById("advice").textContent=msg}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){let done=state.tasks.filter(t=>t.done).length,pending=state.tasks.length-done,active=state.routines.filter(r=>r.active).length;document.getElementById("today").textContent=new Date().toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"});document.getElementById("heroAvatar").textContent=state.avatar;document.getElementById("profileAvatar").textContent=state.avatar;document.getElementById("doneCount").textContent=done;document.getElementById("todoCount").textContent=pending;document.getElementById("routineCount").textContent=active;document.getElementById("xp").textContent=state.xp;document.getElementById("profileXP").textContent=state.xp;document.getElementById("level").textContent=Math.floor(state.xp/100)+1;document.getElementById("xpbar").style.width=(state.xp%100)+"%";document.getElementById("profileDone").textContent=done;document.getElementById("profileRate").textContent=(state.tasks.length?Math.round(done/state.tasks.length*100):0)+"%";let sorted=[...state.tasks].sort((a,b)=>a.time.localeCompare(b.time));document.getElementById("homeTasks").innerHTML=sorted.slice(0,4).map(taskHTML).join("")||'<div class=empty>Nessuna attività. Aggiungine una!</div>';document.getElementById("allTasks").innerHTML=sorted.map(taskHTML).join("")||'<div class=empty>La giornata è libera. Aggiungi la prima attività.</div>';document.getElementById("routineList").innerHTML=state.routines.map(r=>`<div class="card routine"><div><b>${esc(r.name)}</b><small>${esc(r.freq)}</small></div><button class="switch ${r.active?'on':''}" onclick="toggleRoutine(${r.id})">${r.active?'Attiva':'In pausa'}</button></div>`).join("")||'<div class=empty>Nessuna routine creata.</div>';document.getElementById("personality").value=state.personality;document.getElementById("goal").value=state.goal;document.querySelectorAll("#avatarChoices button").forEach(b=>b.classList.toggle("selected",b.textContent===state.avatar));advice()}
+function resetDemo(){if(confirm("Vuoi ripristinare i dati demo?")){localStorage.removeItem("emaguMiniMe");location.reload()}}
+render();
+if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{})); }
+</script>
+</body></html>
